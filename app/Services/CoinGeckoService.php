@@ -8,11 +8,16 @@ use Illuminate\Support\Facades\Log;
 
 class CoinGeckoService
 {
-    private array $coins = ['bitcoin', 'ethereum', 'solana', 'dogecoin'];
+    private array $coins = [
+        'bitcoin' => 'BTC',
+        'ethereum' => 'ETH',
+        'solana' => 'SOL',
+        'dogecoin' => 'DOGE',
+    ];
 
     public function fetchAndSavePrices(): void
     {
-        $ids = implode(',', $this->coins);
+        $ids = implode(',', array_keys($this->coins));
 
         $response = Http::get("https://api.coingecko.com/api/v3/simple/price?ids={$ids}&vs_currencies=pln");
 
@@ -27,7 +32,7 @@ class CoinGeckoService
             Cryptocurrency::updateOrCreate(
                 ['name' => ucfirst($coinId)],
                 [
-                    'symbol' => strtoupper(substr($coinId, 0, 3)),
+                    'symbol' => $this->coins[$coinId] ?? strtoupper($coinId),
                     'price' => $priceData['pln'],
                 ]
             );
