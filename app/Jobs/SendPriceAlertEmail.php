@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Mail\PriceAlertMail;
 use App\Models\PriceAlert;
 use App\Notifications\PriceAlertTriggered;
 use Illuminate\Contracts\Queue\ShouldQueue;

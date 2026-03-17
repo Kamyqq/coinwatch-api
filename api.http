@@ -1,4 +1,4 @@
-@token = 1|9i3GEg34p3soDASMZaCmZ3YXG2xg99GvFg8ejjhNe0088367
+@token = 1|9JPmFdS0kvZ18vcCiqPMzlxP3bq0UlBN8AwOZddP4ff4ba37
 @host = http://localhost/api
 
 ### get all user alerts (paginated)
