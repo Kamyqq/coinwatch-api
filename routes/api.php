@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\MarketController;
 use App\Http\Controllers\Api\PriceAlertController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -9,3 +10,5 @@ Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {
     Route::post('/alerts', [PriceAlertController::class, 'store']);
     Route::delete('/alerts/{priceAlert}', [PriceAlertController::class, 'destroy']);
 });
+
+Route::get('/market', [MarketController::class, 'index']);

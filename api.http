@@ -22,3 +22,7 @@ Content-Type: application/json
 DELETE {{host}}/alerts/3
 Authorization: Bearer {{token}}
 Accept: application/json
+
+### get all market prices (Cached)
+GET {{host}}/market
+Accept: application/json

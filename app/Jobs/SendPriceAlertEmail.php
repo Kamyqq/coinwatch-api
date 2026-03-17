@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Mail\PriceAlertMail;
 use App\Models\PriceAlert;
+use App\Notifications\PriceAlertTriggered;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Mail;
@@ -27,6 +28,6 @@ class SendPriceAlertEmail implements ShouldQueue
     {
         $user = $this->alert->user;
 
-        Mail::to($user)->send(new PriceAlertMail($this->alert));
+        $user->notify(new PriceAlertTriggered($this->alert));
     }
 }

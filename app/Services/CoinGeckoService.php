@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Cryptocurrency;
+use Illuminate\Support\Facades\Cache;
 use \Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -37,6 +38,8 @@ class CoinGeckoService
                 ]
             );
         }
+
+        Cache::forget('market_prices');
 
         Log::info('Crypto prices successfully updated from CoinGecko');
     }
