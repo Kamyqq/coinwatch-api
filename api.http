@@ -1,0 +1,24 @@
+@token = 1|9i3GEg34p3soDASMZaCmZ3YXG2xg99GvFg8ejjhNe0088367
+@host = http://localhost/api
+
+### get all user alerts (paginated)
+GET {{host}}/alerts
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### create a new price alert
+POST {{host}}/alerts
+Authorization: Bearer {{token}}
+Accept: application/json
+Content-Type: application/json
+
+{
+    "cryptocurrency_id": 1,
+    "target_price": 20000.00,
+    "direction": "below"
+}
+
+### delete a specific alert
+DELETE {{host}}/alerts/3
+Authorization: Bearer {{token}}
+Accept: application/json
