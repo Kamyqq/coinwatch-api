@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cryptocurrency extends Model
 {
-    protected $fillable = ['name', 'symbol', 'current_price'];
+    protected $fillable = ['name', 'symbol', 'price'];
 
     public function priceAlerts()
     {

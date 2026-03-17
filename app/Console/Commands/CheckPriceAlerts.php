@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\PriceAlertHit;
 use App\Models\PriceAlert;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -46,7 +47,7 @@ class CheckPriceAlerts extends Command
                         DB::transaction(function () use ($alert) {
                             $alert->update(['is_triggered' => true]);
 
-                            // event -> job -> mail
+                            PriceAlertHit::dispatch($alert);
 
                             $this->info("Target price hit for: {$alert->id} ({$alert->cryptocurrency->symbol})");
                         });
