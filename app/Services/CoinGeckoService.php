@@ -20,27 +20,40 @@ class CoinGeckoService
     {
         $ids = implode(',', array_keys($this->coins));
 
-        $response = Http::get("https://api.coingecko.com/api/v3/simple/price?ids={$ids}&vs_currencies=pln");
+        try {
+            $response = Http::timeout(10)->get("https://api.coingecko.com/api/v3/simple/price?ids={$ids}&vs_currencies=pln");
 
-        if ($response->failed()) {
-            Log::error('CoinGecko API connection failed');
-            return;
+            if ($response->failed()) {
+                Log::error('CoinGecko API connection failed');
+                return;
+            }
+
+            $data = $response->json();
+
+            if (!is_array($data)) {
+                Log::error('CoinGecko API returned invalid JSON structure');
+                return;
+            }
+
+            foreach ($data as $coinId => $priceData) {
+                if (!isset($priceData['pln'])) {
+                    continue;
+                }
+
+                Cryptocurrency::updateOrCreate(
+                    ['name' => ucfirst($coinId)],
+                    [
+                        'symbol' => $this->coins[$coinId] ?? strtoupper($coinId),
+                        'price' => $priceData['pln'],
+                    ]
+                );
+            }
+
+            Cache::forget('market_prices');
+
+            Log::info('Crypto prices successfully updated from CoinGecko');
+        } catch (\Exception $e) {
+            Log::error('Connection to CoinGecko failed: ' . $e->getMessage());
         }
-
-        $data = $response->json();
-
-        foreach ($data as $coinId => $priceData) {
-            Cryptocurrency::updateOrCreate(
-                ['name' => ucfirst($coinId)],
-                [
-                    'symbol' => $this->coins[$coinId] ?? strtoupper($coinId),
-                    'price' => $priceData['pln'],
-                ]
-            );
-        }
-
-        Cache::forget('market_prices');
-
-        Log::info('Crypto prices successfully updated from CoinGecko');
     }
 }

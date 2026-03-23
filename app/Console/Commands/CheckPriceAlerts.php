@@ -44,13 +44,11 @@ class CheckPriceAlerts extends Command
                     }
 
                     if ($isHit) {
-                        DB::transaction(function () use ($alert) {
-                            $alert->update(['is_triggered' => true]);
+                        $alert->update(['is_triggered' => true]);
 
-                            PriceAlertHit::dispatch($alert);
+                        PriceAlertHit::dispatch($alert);
 
-                            $this->info("Target price hit for: {$alert->id} ({$alert->cryptocurrency->symbol})");
-                        });
+                        $this->info("Target price hit for: {$alert->id} ({$alert->cryptocurrency->symbol})");
                     }
                 }
             });

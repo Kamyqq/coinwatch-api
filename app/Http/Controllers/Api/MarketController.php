@@ -15,7 +15,8 @@ class MarketController extends Controller
 
         $prices = Cache::remember('market_prices', 60, function () {
             return Cryptocurrency::select('id', 'name', 'symbol', 'price', 'updated_at')
-                ->get();
+                ->get()
+                ->toArray();
         });
 
         return response()->json([
