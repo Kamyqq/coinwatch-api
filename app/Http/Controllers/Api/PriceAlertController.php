@@ -25,6 +25,8 @@ class PriceAlertController extends Controller
         $alert = $request->user()->priceAlerts()->create(
             $request->validated() + ['is_triggered' => false]);
 
+        $alert->load('cryptocurrency');
+
         return new PriceAlertResource($alert);
     }
 

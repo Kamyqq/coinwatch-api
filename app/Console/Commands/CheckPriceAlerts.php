@@ -32,7 +32,7 @@ class CheckPriceAlerts extends Command
 
         PriceAlert::with('cryptocurrency')
             ->where('is_triggered', false)
-            ->chunk(500, function ($alerts) {
+            ->chunkById(500, function ($alerts) {
                 foreach ($alerts as $alert) {
                     $crypto = $alert->cryptocurrency;
                     $isHit = false;

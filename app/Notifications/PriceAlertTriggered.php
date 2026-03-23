@@ -39,7 +39,7 @@ class PriceAlertTriggered extends Notification implements ShouldQueue
         return [
             'alert_id' => $this->alert->id,
             'crypto_symbol' => $this->alert->cryptocurrency->symbol,
-            'message' => "Target price {$this->alert->target_price} PLN was hit!}"
+            'message' => "Target price {$this->alert->target_price} PLN was hit!"
         ];
     }
 }
